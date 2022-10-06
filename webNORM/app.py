@@ -5,10 +5,9 @@ st.set_page_config(layout='wide')
 
 
 def cipw():
-    st.write('# CIPW Normative Mineralogy Web App')
+    st.write('# webNORM')
     st.write("""
-        This web app uses the implementation from Verma et al (2003) to calculate normative 
-        mineralogy from bulk geochemistry data. \n
+        A web app to calculate normative mineralogy from bulk geochemistry data. \n
             """
              )
     
