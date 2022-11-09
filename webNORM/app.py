@@ -38,9 +38,6 @@ def cipw():
             )
     
 
-   
-
-
     file = st.sidebar.file_uploader(' ', type=['.csv', '.xlsx'])
 
     data = functions.load_data(file)
@@ -129,7 +126,9 @@ def cipw():
 
 
 
-    # Contact
+    # Citation
+    st.write('## Citing')
+
 
 
     # Reference
