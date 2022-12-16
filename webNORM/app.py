@@ -126,9 +126,7 @@ def cipw():
 
 
 
-    # Citation
-    st.write('## Citing')
-
+  
 
 
     # Reference
