@@ -2,7 +2,7 @@
 
 ## Introduction
 
-webNORM is a user-friendly web application and Python-based implementation of the normative mineralogy algorithm described by Verma et al. (2003). This tool is created to be an accessible solution for calculating normative mineralogy for the geoscience community. 
+webNORM is a user-friendly [web application](http://webnorm.streamlit.com) and Python-based implementation of the normative mineralogy algorithm described by Verma et al. (2003). This tool is created to be an accessible solution for calculating normative mineralogy for the geoscience community.
 
 The application uses major, minor, and trace element oxides as input and returns up to 31 normative minerals, with two methods for estimating the Fe2O3:FeO ratio. You can access webNORM either as a standalone web application or use the underlying normative algorithm through the pyrolite Python package for end-to-end geochemical data analysis.
 
