@@ -76,53 +76,6 @@ def highlight_lessthan(s, threshold, column):
     is_max[column] = s.loc[column] <= threshold
     return ['background-color: yellow' if is_max.any() else '' for v in is_max]
 
-def plot_down_hole(data, minerals, hole_column, hole_id):
-
-    plot_data = data[(data[hole_column] == hole_id)].copy(deep=True)
-
-    plot_data['mid_sample'] = plot_data['Depth'].values + plot_data['Assay_length'].values / 2
-
-    plot_minerals = minerals
-
-    fig = px.bar(
-        plot_data,
-        x=plot_minerals,
-        y='mid_sample',
-        orientation='h',
-        width=250,
-        height=700,
-    )
-
-    fig.update_layout(
-        bargap=0
-    )
-
-    for d in fig.data:
-        d["width"] = plot_data['Assay_length']
-
-    fig['layout']['yaxis']['autorange'] = "reversed"
-    fig['layout']['xaxis']['fixedrange'] = True
-    fig['layout']['xaxis']['range'] = [0, 100]
-
-    fig['layout']['dragmode'] = 'pan'
-
-    return fig
-
-
-def plot_form(data):
-    with st.form(key='select_options'):
-        mineral_list = data.columns.tolist()
-        mineral_options = st.multiselect('Minerals to plot', mineral_list)
-
-        column_choice = data.columns.tolist()
-        chosen_col = st.selectbox('Choose column with hole ID', column_choice)
-        chosen_hole = st.selectbox('Choose Hole', data[chosen_col].unique())
-        plot_button = st.form_submit_button('Plot')
-
-    if plot_button:
-        fig = plot_down_hole(data, mineral_options, chosen_col, chosen_hole)
-
-        return fig
 
 def fe_correction(df, constant=None, specified_column=None):
     """
@@ -158,9 +111,10 @@ def fe_correction(df, constant=None, specified_column=None):
 def calculate_norms(df, fe_correction_method, fe_correction_type=None, fe_constant=None):
 
     if fe_correction_method == 'Le Maitre':
-        print(fe_correction_type)
-        norms = CIPW_norm(df=df, Fe_correction='LeMaitre', Fe_correction_mode=fe_correction_type, adjust_all_Fe=True)
+        norms = CIPW_norm(df=df, Fe_correction='LeMaitre', Fe_correction_mode=fe_correction_type, adjust_all_Fe=True, return_free_components=True, rounding=3)
     
+    elif fe_correction_method == 'Middlemost':
+        norms = CIPW_norm(df=df, Fe_correction='Middlemost', Fe_correction_mode=fe_correction_type, adjust_all_Fe=True, return_free_components=True, rounding=3)
     else:
         norms = CIPW_norm(df=df)
     
@@ -173,8 +127,9 @@ def calculate_norms(df, fe_correction_method, fe_correction_type=None, fe_consta
        'hematite', 'forsterite', 'fayalite', 'clinoferrosilite',
        'clinoenstatite', 'ferrosilite', 'enstatite', 'titanite',
        'wollastonite', 'halite',
-       'cancrinite']
+       'cancrinite', 'FREE_O', 'FREE_CO2',
+       'FREE_OXIDES']
 
-    norms['Sum'] = norms[only_endmembers].sum(axis=1)
+    norms['Sum'] = norms[only_endmembers].sum(axis=1) - norms['FREE_DEFSIO2']
 
     return norms

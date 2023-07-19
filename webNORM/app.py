@@ -60,7 +60,7 @@ def cipw():
 
 
     st.sidebar.write('## Fe Correction Method')
-    fe_option = st.sidebar.selectbox('Fe Correction Method', ['None', 'Constant', 'Le Maitre', 'Specified'])
+    fe_option = st.sidebar.selectbox('Fe Correction Method', ['None', 'Constant', 'Le Maitre', 'Middlemost', 'Specified'])
 
     if fe_option == 'None':
         rock_select = None
@@ -80,14 +80,10 @@ def cipw():
     elif fe_option == 'Le Maitre':
         rock_select = st.sidebar.radio(label='Igneous Type', options=['Plutonic', 'Volcanic'])
         # remove capitilisation
-        if rock_select == 'Plutonic':
-            rock_select = 'plutonic'
-        
-        elif rock_select == 'Volcanic':
-            rock_select = 'volcanic'
-        
-        else:
-            rock_select = None
+        rock_select = rock_select.lower()
+
+    elif fe_option == 'Middlemost':
+        rock_select = None
 
     st.sidebar.write('### Calculate')
     cal_button = st.sidebar.empty()
@@ -114,6 +110,8 @@ def cipw():
             elif fe_option == 'Le Maitre':
                 adj_factor = None
 
+            elif fe_option == 'Middlemost':
+                adj_factor = None
         
             
             norms = functions.calculate_norms(df=data, fe_correction_method=fe_option, fe_correction_type=rock_select, fe_constant=adj_factor)
