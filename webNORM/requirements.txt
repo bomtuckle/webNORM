@@ -4,4 +4,4 @@ openpyxl==3.0.7
 pandas==1.2.4
 plotly==4.14.3
 streamlit==1.11.1
-pyrolite==0.3.3
+pyrolite==0.3.4
