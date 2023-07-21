@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import streamlit as st
-import plotly.express as px
 import base64
 from pyrolite.mineral.normative import CIPW_norm
 
@@ -48,7 +47,7 @@ def load_data(file):
 
 
 
-@st.cache
+@st.cache_data
 def download_df(df):
     xlsx = df.to_csv(index=False)
     b64 = base64.b64encode(
@@ -116,7 +115,7 @@ def calculate_norms(df, fe_correction_method, fe_correction_type=None, fe_consta
     elif fe_correction_method == 'Middlemost':
         norms = CIPW_norm(df=df, Fe_correction='Middlemost', Fe_correction_mode=fe_correction_type, adjust_all_Fe=True, return_free_components=True, rounding=3)
     else:
-        norms = CIPW_norm(df=df)
+        norms = CIPW_norm(df=df, return_free_components=True, rounding=3)
     
 
     only_endmembers = ['quartz', 'zircon', 'potassium metasilicate', 'anorthite',

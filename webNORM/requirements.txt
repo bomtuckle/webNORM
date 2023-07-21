@@ -1,7 +1,6 @@
-protobuf~=3.19.0
-numpy==1.22
-openpyxl==3.0.7
-pandas==1.2.4
-plotly==4.14.3
-streamlit==1.11.1
+altair==5.0.1
+numpy==1.25.1
+openpyxl==3.1.2
+pandas==2.0.3
 pyrolite==0.3.4
+streamlit==1.24.0

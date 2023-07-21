@@ -45,11 +45,13 @@ def cipw():
     if file is not None:
         sum_threshold=90
         data['Sum'] = functions.major_sum(data)
-        st.write(
-            data.style.apply(
-                functions.highlight_lessthan, threshold=sum_threshold, column='Sum', axis=1
+        st.dataframe(
+            data=data.style.apply(
+                functions.highlight_lessthan, threshold=sum_threshold, column='Sum', axis=1,
             )
         )
+
+
         n_samples = functions.summation_warning(data, sum_threshold)
         if n_samples > 0:
             st.write("""
@@ -59,14 +61,14 @@ def cipw():
 
 
 
-    st.sidebar.write('## Fe Correction Method')
-    fe_option = st.sidebar.selectbox('Fe Correction Method', ['None', 'Constant', 'Le Maitre', 'Middlemost', 'Specified'])
+    st.sidebar.write('## Fe Adjustment')
+    fe_option = st.sidebar.selectbox('Choose method:', ['None', 'Constant', 'Le Maitre', 'Middlemost', 'Specified'])
 
     if fe_option == 'None':
         rock_select = None
 
     if fe_option == 'Constant':
-        fe_slider = st.sidebar.slider(label='Correction Factor', min_value=0.0, max_value=1.0, step=0.01)
+        fe_slider = st.sidebar.slider(label='FeO to Fe2O3 Ratio', min_value=0.0, max_value=1.0, step=0.01)
         rock_select = None
 
 
@@ -123,15 +125,17 @@ def cipw():
             st.markdown(functions.download_df(norms), unsafe_allow_html=True)
 
 
-
-  
+    # Citation
 
 
     # Reference
     st.write('### References')
     st.write('''
     Le Maitre, R.W. Some problems of the projection of chemical data into mineralogical classifications
-        *Contr. Mineral. and Petrol. 56, 181–189 (1976).* https://doi.org/10.1007/BF00399603
+    *Contributions to Mineralogy and Petrology. 56, 181–189 (1976).* https://doi.org/10.1007/BF00399603
+
+    Middlemost, E. A. K. (1989). Iron oxidation ratios, norms and the classification of volcanic rocks.
+    *Chemical Geology, 77(1), 19–26.* https://doi.org/10.1016/0009-2541(89)90011-9
         
     Verma, S.P., Torres-Alvarado, I.S. & Velasco-Tapia, F., 2003. A revised CIPW norm.
     *Schweizerische Mineralogische und Petrographische Mitteilungen, 83(2), pp.197–216.* http://doi.org/10.5169/seals-63145
